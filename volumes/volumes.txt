@@ -1,0 +1,99 @@
+Docker Volumes 
+
+Docker Volumes Demo (Bind Mounts)
+
+This small demo shows how to run a Node.js container using the latest node:latest image and mount a local directory into the container using Docker bind mounts.
+
+We will start the container with an interactive bash shell to see the mounted files inside the container.
+
+📘 What Are Docker Volumes?
+
+Docker volumes are storage mechanisms used by containers to persist data beyond the container’s lifecycle.
+They allow data to be stored outside the container filesystem so it isn’t lost when the container is stopped, removed, or recreated.
+
+There are two main types:
+
+Managed volumes (created by Docker)
+
+Bind mounts (map host directories to containers)
+
+This demo uses bind mounts.
+
+📁 1. Prerequisites
+
+Docker installed
+
+Any directory on your system containing files (for demo)
+
+Example: ./app
+
+app/
+  index.js
+  package.json
+
+🚀 2. Run Container With Bind Mount
+
+Run the following command from the directory above your app folder:
+
+docker run -it \
+  -v $(pwd)/app:/usr/src/app \
+  -w /usr/src/app \
+  node:latest bash
+
+Explanation
+Flag	Meaning
+-it	Interactive terminal
+-v	Mount a local directory into container
+-w	Set working directory inside container
+node:latest	Base image
+bash	Start bash shell
+📦 3. Validate the Volume Mount
+
+Inside container, list files:
+
+ls -al
+
+
+You should see the same files from your local app/ directory.
+
+🧪 4. (Optional) Run Node Script
+
+If you have a package.json, install dependencies:
+
+npm install
+
+
+Run your app:
+
+node index.js
+
+🛑 5. Stop and Exit
+
+To exit container:
+
+exit
+
+
+The container will stop and your local files remain unchanged.
+
+📝 Notes
+
+This is a bind mount, meaning changes are synced between host and container in real time.
+
+Useful for local development without rebuilding images.
+
+You can edit files locally and re-run commands inside container instantly.
+
+🔧 Windows Users
+
+Use this format instead of $(pwd):
+
+docker run -it ^
+  -v "%cd%/app:/usr/src/app" ^
+  -w /usr/src/app" ^
+  node:latest bash
+
+🎉 Conclusion
+
+You have successfully run a Node container and mounted a local folder into it using Docker.
+This allows you to develop locally while running code inside containers.
